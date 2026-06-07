@@ -17,7 +17,7 @@ importers:
 
   packages/questionnaire-authoring:
     dependencies:
-      '@dynamic-questionnaire/renderer':
+      '@lrama1/dynamic-questionnaire-renderer':
         specifier: workspace:*
         version: link:../questionnaire-renderer
       '@xyflow/react':

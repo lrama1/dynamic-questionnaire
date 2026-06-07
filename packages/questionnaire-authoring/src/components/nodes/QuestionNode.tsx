@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Handle, Position, NodeProps } from '@xyflow/react';
-import type { QuestionNodeData, OptionItem } from '@dynamic-questionnaire/renderer';
+import type { QuestionNodeData, OptionItem } from '@lrama1/dynamic-questionnaire-renderer';
 import styles from './QuestionNode.module.css';
 
 const ANSWER_TYPE_LABELS: Record<string, string> = {

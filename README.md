@@ -6,7 +6,7 @@ A monorepo for authoring and rendering dynamic questionnaires with conditional b
 
 | Package | Description |
 |---|---|
-| [`@dynamic-questionnaire/renderer`](./packages/questionnaire-renderer) | React component that renders a questionnaire from a JSON config. Publishable to npm. |
+| [`@lrama1/dynamic-questionnaire-renderer`](./packages/questionnaire-renderer) | React component that renders a questionnaire from a JSON config. Publishable to npm. |
 | [`@dynamic-questionnaire/authoring`](./packages/questionnaire-authoring) | Graphical editor built with [@xyflow/react](https://xyflow.com) for drag-and-drop questionnaire authoring. |
 
 ## Getting Started
@@ -75,12 +75,12 @@ Edges can have **simple conditions** (compare one question's answer) or **compou
 ## Using the Renderer in Another Project
 
 ```bash
-npm install @dynamic-questionnaire/renderer
+npm install @lrama1/dynamic-questionnaire-renderer
 ```
 
 ```tsx
-import { QuestionnaireRenderer } from '@dynamic-questionnaire/renderer';
-import '@dynamic-questionnaire/renderer/styles';
+import { QuestionnaireRenderer } from '@lrama1/dynamic-questionnaire-renderer';
+import '@lrama1/dynamic-questionnaire-renderer/styles';
 
 function App() {
   const config = { /* your questionnaire JSON */ };
@@ -96,7 +96,7 @@ function App() {
 
 ## Publishing to npm
 
-The `@dynamic-questionnaire/renderer` package is configured for publishing to the public npm registry.
+The `@lrama1/dynamic-questionnaire-renderer` package is configured for publishing to the public npm registry.
 
 ### Prerequisites
 

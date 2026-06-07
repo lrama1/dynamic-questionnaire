@@ -7,8 +7,8 @@ import type {
   CompoundCondition,
   ComparisonOperator,
   LogicalOperator,
-} from '@dynamic-questionnaire/renderer';
-import { isQuestionNode } from '@dynamic-questionnaire/renderer';
+} from '@lrama1/dynamic-questionnaire-renderer';
+import { isQuestionNode } from '@lrama1/dynamic-questionnaire-renderer';
 import styles from './EdgeConditionPanel.module.css';
 
 interface EdgeConditionPanelProps {

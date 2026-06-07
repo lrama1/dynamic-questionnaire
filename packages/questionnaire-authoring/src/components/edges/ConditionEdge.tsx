@@ -5,7 +5,7 @@ import {
   getBezierPath,
   EdgeProps,
 } from '@xyflow/react';
-import type { EdgeCondition, SimpleCondition } from '@dynamic-questionnaire/renderer';
+import type { EdgeCondition, SimpleCondition } from '@lrama1/dynamic-questionnaire-renderer';
 
 function describeCondition(condition?: EdgeCondition): string {
   if (!condition) return '';

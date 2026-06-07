@@ -22,8 +22,8 @@ import type {
   QuestionnaireConfig,
   QuestionNodeData,
   QuestionnaireNode,
-} from '@dynamic-questionnaire/renderer';
-import { isQuestionNode } from '@dynamic-questionnaire/renderer';
+} from '@lrama1/dynamic-questionnaire-renderer';
+import { isQuestionNode } from '@lrama1/dynamic-questionnaire-renderer';
 import { QuestionNode as QuestionNodeComponent } from './nodes/QuestionNode';
 import { StartNode } from './nodes/StartNode';
 import { EndNode } from './nodes/EndNode';

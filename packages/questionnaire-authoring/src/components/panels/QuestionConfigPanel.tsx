@@ -4,7 +4,7 @@ import type {
   QuestionNodeData,
   AnswerType,
   OptionItem,
-} from '@dynamic-questionnaire/renderer';
+} from '@lrama1/dynamic-questionnaire-renderer';
 import styles from './QuestionConfigPanel.module.css';
 
 // ── Option parsing helpers ───────────────────────────────────

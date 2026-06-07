@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@dynamic-questionnaire/renderer': resolve(
+      '@lrama1/dynamic-questionnaire-renderer': resolve(
         __dirname,
         '../questionnaire-renderer/src/index.ts',
       ),

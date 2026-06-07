@@ -4,8 +4,8 @@ import type {
   QuestionNodeData,
   EdgeCondition,
   QuestionnaireNode,
-} from '@dynamic-questionnaire/renderer';
-import { QuestionnaireRenderer, isQuestionNode } from '@dynamic-questionnaire/renderer';
+} from '@lrama1/dynamic-questionnaire-renderer';
+import { QuestionnaireRenderer, isQuestionNode } from '@lrama1/dynamic-questionnaire-renderer';
 import { FlowEditor } from './components/FlowEditor';
 import { Toolbar } from './components/Toolbar';
 import { QuestionConfigPanel } from './components/panels/QuestionConfigPanel';

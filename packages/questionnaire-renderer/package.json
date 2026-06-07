@@ -1,6 +1,6 @@
 {
-  "name": "@dynamic-questionnaire/renderer",
-  "version": "0.1.1",
+  "name": "@lrama1/dynamic-questionnaire-renderer",
+  "version": "0.1.2",
   "description": "React component for rendering dynamic questionnaires from JSON configuration",
   "type": "module",
   "main": "./dist/index.cjs",

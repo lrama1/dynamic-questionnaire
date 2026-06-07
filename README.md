@@ -94,6 +94,63 @@ function App() {
 }
 ```
 
+## Publishing to npm
+
+The `@dynamic-questionnaire/renderer` package is configured for publishing to the public npm registry.
+
+### Prerequisites
+
+1. A free [npm](https://www.npmjs.com) account
+2. Two-factor authentication (2FA) enabled on your npm account (required for writes)
+
+### One-time Setup
+
+```bash
+# Log in to npm (follow the browser prompts)
+npm login
+
+# Verify you're logged in
+npm whoami
+```
+
+> **Note:** If your npm account uses 2FA (highly recommended), you'll need to provide a one-time password during login and publish. Automation tokens can be used in CI — see [npm docs on access tokens](https://docs.npmjs.com/creating-and-viewing-access-tokens).
+
+### Publishing a New Version
+
+```bash
+# 1. Ensure everything builds cleanly
+pnpm build
+
+# 2. Bump the version (patch, minor, or major)
+cd packages/questionnaire-renderer
+pnpm version patch    # 0.1.0 → 0.1.1 (bug fixes)
+# pnpm version minor  # 0.1.0 → 0.2.0 (new features, backward-compatible)
+# pnpm version major  # 0.1.0 → 1.0.0 (breaking changes)
+
+# 3. Publish to the public registry
+pnpm publish --access public
+```
+
+### What Gets Published
+
+The `"files"` field in `packages/questionnaire-renderer/package.json` controls what's included:
+
+- `dist/` — JavaScript bundles (ESM + CJS), CSS, and TypeScript declarations
+- `package.json` — always included
+- `README.md` — always included
+
+The `"prepublishOnly"` script runs `pnpm build` automatically, so the published package always contains a fresh build.
+
+### Scoped Package Name
+
+The package is published under the `@dynamic-questionnaire` scope. If you want to publish under a different scope or your own username, update the `"name"` field in `packages/questionnaire-renderer/package.json` before publishing:
+
+```json
+{
+  "name": "@your-username/questionnaire-renderer"
+}
+```
+
 ## Tech Stack
 
 - **Monorepo**: Turborepo + pnpm workspaces

@@ -1,0 +1,65 @@
+.editor {
+  width: 100%;
+  height: 100%;
+}
+
+.addPanel {
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.addBtn {
+  padding: 7px 16px;
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+  transition: background 0.15s, transform 0.1s;
+}
+
+.addBtn:hover {
+  background: #4338ca;
+  transform: translateY(-1px);
+}
+
+.addBtn:active {
+  transform: translateY(0);
+}
+
+.addBtnEnd {
+  padding: 7px 16px;
+  background: #fff;
+  color: #dc2626;
+  border: 2px solid #dc2626;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
+  transition: background 0.15s, transform 0.1s;
+}
+
+.addBtnEnd:hover {
+  background: #fef2f2;
+  transform: translateY(-1px);
+}
+
+.addBtnEnd:active {
+  transform: translateY(0);
+}
+
+.hint {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  backdrop-filter: blur(4px);
+}

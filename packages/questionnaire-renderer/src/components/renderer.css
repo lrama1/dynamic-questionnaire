@@ -1,0 +1,215 @@
+/* ── Questionnaire Renderer Styles ─────────────────────────── */
+
+.dq-renderer {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1a1a2e;
+}
+
+.dq-title {
+  margin: 0 0 4px;
+  font-size: 1.5rem;
+}
+
+.dq-description {
+  margin: 0 0 20px;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* ── Progress bar ─────────────────────────────────────────── */
+
+.dq-progress {
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.dq-progress-bar {
+  height: 100%;
+  background: #4f46e5;
+  border-radius: 2px;
+  transition: width 0.35s ease;
+}
+
+/* ── Question step ────────────────────────────────────────── */
+
+.dq-question-step {
+  margin-bottom: 24px;
+}
+
+.dq-question-text {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+}
+
+.dq-required {
+  color: #e11d48;
+}
+
+.dq-question-description {
+  margin: 0 0 12px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.dq-input-area {
+  margin-top: 8px;
+}
+
+/* ── Inputs (shared) ──────────────────────────────────────── */
+
+.dq-input {
+  font-size: 1rem;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.dq-input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.dq-input--dropdown {
+  cursor: pointer;
+}
+
+/* ── Radio & Checkbox ─────────────────────────────────────── */
+
+.dq-input--radio-group,
+.dq-input--checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dq-radio-label,
+.dq-checkbox-label,
+.dq-boolean-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+/* ── Numeric stepper ──────────────────────────────────────── */
+
+.dq-input--stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+.dq-stepper-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #f0f0f0;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.dq-stepper-btn:hover:not(:disabled) {
+  background: #e0e0e0;
+}
+
+.dq-stepper-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.dq-stepper-value {
+  min-width: 32px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* ── Boolean toggle ───────────────────────────────────────── */
+
+.dq-input--boolean {
+  display: flex;
+  gap: 16px;
+}
+
+/* ── Navigation ───────────────────────────────────────────── */
+
+.dq-navigation {
+  display: flex;
+  align-items: center;
+  margin-top: 28px;
+}
+
+.dq-navigation__spacer {
+  flex: 1;
+}
+
+.dq-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.dq-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dq-btn--back {
+  background: #e5e7eb;
+  color: #333;
+}
+
+.dq-btn--back:hover:not(:disabled) {
+  background: #d1d5db;
+}
+
+.dq-btn--next {
+  background: #4f46e5;
+  color: #fff;
+}
+
+.dq-btn--next:hover:not(:disabled) {
+  background: #4338ca;
+}
+
+/* ── Completion ───────────────────────────────────────────── */
+
+.dq-completed-card {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.dq-completed-card h2 {
+  color: #16a34a;
+  margin-bottom: 8px;
+}
+
+/* ── Empty state ──────────────────────────────────────────── */
+
+.dq-empty {
+  text-align: center;
+  color: #999;
+  padding: 40px;
+}

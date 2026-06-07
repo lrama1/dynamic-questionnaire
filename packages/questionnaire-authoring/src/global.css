@@ -1,0 +1,23 @@
+/* ── Global reset & xyflow overrides ────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+}
+
+/* Make xyflow canvas fill available space */
+.react-flow {
+  background: #f1f5f9 !important;
+}

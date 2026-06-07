@@ -1,0 +1,90 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.mainArea {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.canvasArea {
+  flex: 1;
+  position: relative;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────── */
+
+.resizeHandle {
+  width: 6px;
+  cursor: col-resize;
+  background: transparent;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+  transition: background 0.15s;
+}
+
+.resizeHandle::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #e2e8f0;
+  border-radius: 1px;
+  transition: background 0.15s, width 0.15s;
+}
+
+.resizeHandle:hover::after,
+.resizeHandleActive::after {
+  background: #4f46e5;
+  width: 3px;
+}
+
+.sidebar {
+  background: #fff;
+  border-left: 1px solid #e2e8f0;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.sidebarEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 24px;
+  color: #94a3b8;
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* ── Preview mode ─────────────────────────────────────────── */
+
+.previewWrapper {
+  height: 100vh;
+  overflow-y: auto;
+  background: #fff;
+}
+
+.exitPreviewBtn {
+  margin: 12px 16px;
+  padding: 8px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #475569;
+  transition: background 0.15s;
+}
+
+.exitPreviewBtn:hover {
+  background: #f1f5f9;
+}

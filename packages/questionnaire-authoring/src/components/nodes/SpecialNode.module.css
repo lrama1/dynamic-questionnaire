@@ -1,0 +1,75 @@
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  cursor: grab;
+}
+
+.node:active {
+  cursor: grabbing;
+}
+
+.selected {
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2) !important;
+}
+
+.start {
+  border-color: #16a34a;
+}
+
+.start.selected {
+  border-color: #16a34a !important;
+}
+
+.end {
+  border-color: #dc2626;
+}
+
+.end.selected {
+  border-color: #dc2626 !important;
+}
+
+.icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.start .icon {
+  color: #16a34a;
+}
+
+.end .icon {
+  color: #dc2626;
+}
+
+.label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.handle {
+  width: 10px !important;
+  height: 10px !important;
+  border: 2px solid #fff !important;
+  border-radius: 50% !important;
+}
+
+.start .handle {
+  background: #16a34a !important;
+}
+
+.end .handle {
+  background: #dc2626 !important;
+}

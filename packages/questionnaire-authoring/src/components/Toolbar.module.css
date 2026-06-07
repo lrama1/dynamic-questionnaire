@@ -1,0 +1,86 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 16px;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #4f46e5;
+  letter-spacing: -0.02em;
+}
+
+.titleInput {
+  border: 1px solid transparent;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1e293b;
+  background: transparent;
+  width: 220px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.titleInput:hover {
+  border-color: #e2e8f0;
+}
+
+.titleInput:focus {
+  outline: none;
+  border-color: #4f46e5;
+  background: #fff;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn {
+  padding: 6px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 0.8rem;
+  color: #475569;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.previewBtn {
+  background: #4f46e5;
+  color: #fff;
+  border-color: #4f46e5;
+}
+
+.previewBtn:hover {
+  background: #4338ca;
+  border-color: #4338ca;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: #e2e8f0;
+}

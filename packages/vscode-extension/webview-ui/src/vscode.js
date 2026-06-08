@@ -3,9 +3,17 @@
  * All communication with the extension host goes through this module.
  */
 const vscodeApi = acquireVsCodeApi();
+let saveTimeout = null;
 /** Post the full questionnaire config back to VS Code to save */
 export function saveConfig(config) {
-    vscodeApi.postMessage({ type: 'update', config });
+    // Debounce — rapid successive updates (e.g. node deletion + orphaned edges)
+    // would cause "Content is newer" conflicts.  Batch them into one save.
+    if (saveTimeout)
+        clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => {
+        console.log('[WEBVIEW] saveConfig, nodes:', config?.nodes?.length);
+        vscodeApi.postMessage({ type: 'update', config });
+    }, 50);
 }
 /** Listen for messages from the extension host */
 export function onMessage(handler) {

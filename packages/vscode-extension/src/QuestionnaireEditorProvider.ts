@@ -37,9 +37,11 @@ export class QuestionnaireEditorProvider implements vscode.CustomTextEditorProvi
           const content = JSON.stringify(message.config, null, 2);
           // Try WorkspaceEdit first (shows dirty indicator, user saves manually)
           const edit = new vscode.WorkspaceEdit();
+          const lastLine = document.lineCount - 1;
+          const lastChar = document.lineAt(lastLine).text.length;
           edit.replace(
             document.uri,
-            new vscode.Range(0, 0, document.lineCount, 0),
+            new vscode.Range(0, 0, lastLine, lastChar),
             content,
           );
           const applied = await vscode.workspace.applyEdit(edit);

@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { isQuestionNode } from '@lrama1/dynamic-questionnaire-renderer';
+import { isQuestionNode, QuestionnaireRenderer } from '@lrama1/dynamic-questionnaire-renderer';
 import { FlowEditor } from '@dq-authoring/components/FlowEditor';
 import { QuestionConfigPanel } from '@dq-authoring/components/panels/QuestionConfigPanel';
 import { EdgeConditionPanel } from '@dq-authoring/components/panels/EdgeConditionPanel';
@@ -20,6 +20,7 @@ const App = () => {
     const [selectedEdgeId, setSelectedEdgeId] = useState(null);
     const [sidebarWidth, setSidebarWidth] = useState(340);
     const [isResizing, setIsResizing] = useState(false);
+    const [isPreview, setIsPreview] = useState(false);
     const mainAreaRef = useRef(null);
     const initializedRef = useRef(false);
     // ── VS Code communication ────────────────────────────────
@@ -133,39 +134,43 @@ const App = () => {
     const selectedEdge = selectedEdgeId
         ? config.edges.find((e) => e.id === selectedEdgeId) ?? null
         : null;
-    // ── Render ───────────────────────────────────────────────
-    return (_jsx("div", { style: { display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }, children: _jsxs("div", { style: { display: 'flex', flex: 1, overflow: 'hidden' }, ref: mainAreaRef, children: [_jsx("div", { style: { flex: 1, position: 'relative' }, children: _jsx(FlowEditor, { config: config, selectedNodeId: selectedNodeId, selectedEdgeId: selectedEdgeId, onConfigChange: handleConfigChange, onNodeSelect: handleNodeSelect, onEdgeSelect: handleEdgeSelect }) }), _jsx("div", { style: {
-                        width: 6,
-                        cursor: 'col-resize',
-                        flexShrink: 0,
-                        background: isResizing ? '#4f46e5' : 'transparent',
-                        transition: 'background 0.15s',
-                    }, onMouseDown: handleResizeStart }), _jsx("aside", { style: {
-                        width: sidebarWidth,
-                        background: 'var(--vscode-editor-background, #fff)',
-                        borderLeft: '1px solid var(--vscode-panel-border, #e2e8f0)',
-                        overflowY: 'auto',
-                        flexShrink: 0,
-                        color: 'var(--vscode-editor-foreground, #1e293b)',
-                    }, children: selectedNode ? (isQuestionNode(selectedNode) ? (_jsx(QuestionConfigPanel, { node: selectedNode, onChange: (data) => updateNodeData(selectedNode.id, data), onDelete: () => deleteNode(selectedNode.id), onClose: () => handleNodeSelect(null) })) : (_jsxs("div", { style: { padding: 16, textAlign: 'center' }, children: [_jsx("p", { style: { marginBottom: 8 }, children: _jsx("strong", { children: selectedNode.type === 'start' ? '▶ Start Node' : '⏹ End Node' }) }), _jsx("p", { style: { fontSize: '0.85rem', color: 'var(--vscode-descriptionForeground, #94a3b8)' }, children: selectedNode.type === 'start'
-                                    ? 'The questionnaire flow begins here.'
-                                    : 'The questionnaire ends here.' }), _jsx("button", { onClick: () => deleteNode(selectedNode.id), style: {
-                                    marginTop: 16,
-                                    padding: '8px 16px',
-                                    border: '1px solid #fecaca',
-                                    borderRadius: 6,
-                                    background: '#fef2f2',
-                                    color: '#dc2626',
-                                    cursor: 'pointer',
-                                }, children: "\uD83D\uDDD1 Delete Node" })] }))) : selectedEdge ? (_jsx(EdgeConditionPanel, { edge: selectedEdge, nodes: config.nodes, onChange: (condition) => updateEdgeCondition(selectedEdge.id, condition), onDelete: () => deleteEdge(selectedEdge.id), onClose: () => handleEdgeSelect(null) })) : (_jsx("div", { style: {
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            height: '100%',
-                            padding: 24,
-                            color: 'var(--vscode-descriptionForeground, #94a3b8)',
-                            textAlign: 'center',
-                            fontSize: '0.9rem',
-                        }, children: _jsxs("p", { children: ["Select a node to edit its question,", _jsx("br", {}), "or an edge to configure its condition."] }) })) })] }) }));
+    // ── Preview mode ────────────────────────────────────────
+    if (isPreview) {
+        return (_jsxs("div", { style: { height: '100vh', overflow: 'auto', background: 'var(--vscode-editor-background, #fff)', color: 'var(--vscode-editor-foreground, #1e293b)' }, children: [_jsx("button", { onClick: () => setIsPreview(false), style: { margin: '12px 16px', padding: '8px 16px', border: '1px solid var(--vscode-panel-border, #cbd5e1)', borderRadius: 6, background: 'var(--vscode-editor-background, #fff)', cursor: 'pointer', fontSize: '0.9rem', color: 'var(--vscode-editor-foreground, #475569)' }, children: "\u2190 Back to Editor" }), _jsx(QuestionnaireRenderer, { config: config })] }));
+    }
+    // ── Editor ───────────────────────────────────────────────
+    return (_jsxs("div", { style: { display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }, children: [_jsx("div", { style: { padding: '6px 12px', borderBottom: '1px solid var(--vscode-panel-border, #e2e8f0)', display: 'flex', justifyContent: 'flex-end', background: 'var(--vscode-editor-background, #fff)' }, children: _jsx("button", { onClick: () => setIsPreview(true), style: { padding: '6px 14px', background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 6, fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer' }, children: "\u25B6 Preview" }) }), _jsxs("div", { style: { display: 'flex', flex: 1, overflow: 'hidden' }, ref: mainAreaRef, children: [_jsx("div", { style: { flex: 1, position: 'relative' }, children: _jsx(FlowEditor, { config: config, selectedNodeId: selectedNodeId, selectedEdgeId: selectedEdgeId, onConfigChange: handleConfigChange, onNodeSelect: handleNodeSelect, onEdgeSelect: handleEdgeSelect }) }), _jsx("div", { style: {
+                            width: 6,
+                            cursor: 'col-resize',
+                            flexShrink: 0,
+                            background: isResizing ? '#4f46e5' : 'transparent',
+                            transition: 'background 0.15s',
+                        }, onMouseDown: handleResizeStart }), _jsx("aside", { style: {
+                            width: sidebarWidth,
+                            background: 'var(--vscode-editor-background, #fff)',
+                            borderLeft: '1px solid var(--vscode-panel-border, #e2e8f0)',
+                            overflowY: 'auto',
+                            flexShrink: 0,
+                            color: 'var(--vscode-editor-foreground, #1e293b)',
+                        }, children: selectedNode ? (isQuestionNode(selectedNode) ? (_jsx(QuestionConfigPanel, { node: selectedNode, onChange: (data) => updateNodeData(selectedNode.id, data), onDelete: () => deleteNode(selectedNode.id), onClose: () => handleNodeSelect(null) })) : (_jsxs("div", { style: { padding: 16, textAlign: 'center' }, children: [_jsx("p", { style: { marginBottom: 8 }, children: _jsx("strong", { children: selectedNode.type === 'start' ? '▶ Start Node' : '⏹ End Node' }) }), _jsx("p", { style: { fontSize: '0.85rem', color: 'var(--vscode-descriptionForeground, #94a3b8)' }, children: selectedNode.type === 'start'
+                                        ? 'The questionnaire flow begins here.'
+                                        : 'The questionnaire ends here.' }), _jsx("button", { onClick: () => deleteNode(selectedNode.id), style: {
+                                        marginTop: 16,
+                                        padding: '8px 16px',
+                                        border: '1px solid #fecaca',
+                                        borderRadius: 6,
+                                        background: '#fef2f2',
+                                        color: '#dc2626',
+                                        cursor: 'pointer',
+                                    }, children: "\uD83D\uDDD1 Delete Node" })] }))) : selectedEdge ? (_jsx(EdgeConditionPanel, { edge: selectedEdge, nodes: config.nodes, onChange: (condition) => updateEdgeCondition(selectedEdge.id, condition), onDelete: () => deleteEdge(selectedEdge.id), onClose: () => handleEdgeSelect(null) })) : (_jsx("div", { style: {
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                height: '100%',
+                                padding: 24,
+                                color: 'var(--vscode-descriptionForeground, #94a3b8)',
+                                textAlign: 'center',
+                                fontSize: '0.9rem',
+                            }, children: _jsxs("p", { children: ["Select a node to edit its question,", _jsx("br", {}), "or an edge to configure its condition."] }) })) })] })] }));
 };
 export default App;

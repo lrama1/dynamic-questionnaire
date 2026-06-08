@@ -140,6 +140,36 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({
     });
   }, [config.nodes, setNodes]);
 
+  // ── Sync config ↔ xyflow edges (add/remove/update) ──────
+
+  useEffect(() => {
+    setEdges((current) => {
+      const configIds = new Set(config.edges.map((e) => e.id));
+
+      // Remove edges that no longer exist in config
+      let updated = current.filter((e) => configIds.has(e.id));
+
+      // Add new edges from config that aren't in xyflow yet
+      const currentIds = new Set(updated.map((e) => e.id));
+      for (const ce of config.edges) {
+        if (!currentIds.has(ce.id)) {
+          updated.push({
+            id: ce.id,
+            source: ce.source,
+            target: ce.target,
+            sourceHandle: ce.sourceHandle,
+            targetHandle: ce.targetHandle,
+            type: 'condition',
+            data: ce.data as unknown as Record<string, unknown> | undefined,
+            animated: !!ce.data?.condition,
+          });
+        }
+      }
+
+      return updated;
+    });
+  }, [config.edges, setEdges]);
+
   // ── Sync positions back to config after drag ─────────────
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -279,6 +309,49 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({
     [onNodeSelect, onEdgeSelect, addNodeAtPosition],
   );
 
+  // ── Handle keyboard delete via onNodesChange/onEdgesChange
+
+  const handleNodesChangeWrapped = useCallback(
+    (changes: any[]) => {
+      onNodesChange(changes);
+
+      // Detect node removals → update config
+      const removedIds = changes
+        .filter((c: any) => c.type === 'remove')
+        .map((c: any) => c.id);
+      if (removedIds.length > 0) {
+        const idSet = new Set(removedIds);
+        onConfigChange({
+          ...config,
+          nodes: config.nodes.filter((n) => !idSet.has(n.id)),
+          edges: config.edges.filter(
+            (e) => !idSet.has(e.source) && !idSet.has(e.target),
+          ),
+        });
+      }
+    },
+    [config, onConfigChange, onNodesChange],
+  );
+
+  const handleEdgesChangeWrapped = useCallback(
+    (changes: any[]) => {
+      onEdgesChange(changes);
+
+      // Detect edge removals → update config
+      const removedIds = changes
+        .filter((c: any) => c.type === 'remove')
+        .map((c: any) => c.id);
+      if (removedIds.length > 0) {
+        const idSet = new Set(removedIds);
+        onConfigChange({
+          ...config,
+          edges: config.edges.filter((e) => !idSet.has(e.id)),
+        });
+      }
+    },
+    [config, onConfigChange, onEdgesChange],
+  );
+
   // ── Render ────────────────────────────────────────────────
 
   return (
@@ -286,8 +359,8 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({
       <ReactFlow
         nodes={nodes}
         edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
+        onNodesChange={handleNodesChangeWrapped}
+        onEdgesChange={handleEdgesChangeWrapped}
         onConnect={handleConnect}
         onNodeDragStop={handleNodeDragStop}
         onSelectionChange={handleSelectionChange}

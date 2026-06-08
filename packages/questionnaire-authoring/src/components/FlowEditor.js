@@ -81,6 +81,31 @@ export const FlowEditor = ({ config, selectedNodeId, selectedEdgeId, onConfigCha
             return updated;
         });
     }, [config.nodes, setNodes]);
+    // ── Sync config ↔ xyflow edges (add/remove/update) ──────
+    useEffect(() => {
+        setEdges((current) => {
+            const configIds = new Set(config.edges.map((e) => e.id));
+            // Remove edges that no longer exist in config
+            let updated = current.filter((e) => configIds.has(e.id));
+            // Add new edges from config that aren't in xyflow yet
+            const currentIds = new Set(updated.map((e) => e.id));
+            for (const ce of config.edges) {
+                if (!currentIds.has(ce.id)) {
+                    updated.push({
+                        id: ce.id,
+                        source: ce.source,
+                        target: ce.target,
+                        sourceHandle: ce.sourceHandle,
+                        targetHandle: ce.targetHandle,
+                        type: 'condition',
+                        data: ce.data,
+                        animated: !!ce.data?.condition,
+                    });
+                }
+            }
+            return updated;
+        });
+    }, [config.edges, setEdges]);
     // ── Sync positions back to config after drag ─────────────
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleNodeDragStop = useCallback((_event, node) => {
@@ -189,8 +214,38 @@ export const FlowEditor = ({ config, selectedNodeId, selectedEdgeId, onConfigCha
             onEdgeSelect(null);
         }
     }, [onNodeSelect, onEdgeSelect, addNodeAtPosition]);
+    // ── Handle keyboard delete via onNodesChange/onEdgesChange
+    const handleNodesChangeWrapped = useCallback((changes) => {
+        onNodesChange(changes);
+        // Detect node removals → update config
+        const removedIds = changes
+            .filter((c) => c.type === 'remove')
+            .map((c) => c.id);
+        if (removedIds.length > 0) {
+            const idSet = new Set(removedIds);
+            onConfigChange({
+                ...config,
+                nodes: config.nodes.filter((n) => !idSet.has(n.id)),
+                edges: config.edges.filter((e) => !idSet.has(e.source) && !idSet.has(e.target)),
+            });
+        }
+    }, [config, onConfigChange, onNodesChange]);
+    const handleEdgesChangeWrapped = useCallback((changes) => {
+        onEdgesChange(changes);
+        // Detect edge removals → update config
+        const removedIds = changes
+            .filter((c) => c.type === 'remove')
+            .map((c) => c.id);
+        if (removedIds.length > 0) {
+            const idSet = new Set(removedIds);
+            onConfigChange({
+                ...config,
+                edges: config.edges.filter((e) => !idSet.has(e.id)),
+            });
+        }
+    }, [config, onConfigChange, onEdgesChange]);
     // ── Render ────────────────────────────────────────────────
-    return (_jsx("div", { className: styles.editor, children: _jsxs(ReactFlow, { nodes: nodes, edges: edges, onNodesChange: onNodesChange, onEdgesChange: onEdgesChange, onConnect: handleConnect, onNodeDragStop: handleNodeDragStop, onSelectionChange: handleSelectionChange, onPaneClick: handlePaneClick, onInit: (instance) => { rfInstanceRef.current = instance; }, nodeTypes: nodeTypes, edgeTypes: edgeTypes, defaultEdgeOptions: defaultEdgeOptions, fitView: true, selectionMode: SelectionMode.Partial, deleteKeyCode: ['Backspace', 'Delete'], multiSelectionKeyCode: "Shift", children: [_jsx(Background, { gap: 20, size: 1, color: "#cbd5e1" }), _jsx(Controls, {}), _jsx(MiniMap, { nodeStrokeColor: "#4f46e5", nodeColor: "#e0e7ff", maskColor: "rgba(0,0,0,0.08)" }), _jsxs(Panel, { position: "top-left", className: styles.addPanel, children: [_jsx("button", { className: styles.addBtn, onClick: () => {
+    return (_jsx("div", { className: styles.editor, children: _jsxs(ReactFlow, { nodes: nodes, edges: edges, onNodesChange: handleNodesChangeWrapped, onEdgesChange: handleEdgesChangeWrapped, onConnect: handleConnect, onNodeDragStop: handleNodeDragStop, onSelectionChange: handleSelectionChange, onPaneClick: handlePaneClick, onInit: (instance) => { rfInstanceRef.current = instance; }, nodeTypes: nodeTypes, edgeTypes: edgeTypes, defaultEdgeOptions: defaultEdgeOptions, fitView: true, selectionMode: SelectionMode.Partial, deleteKeyCode: ['Backspace', 'Delete'], multiSelectionKeyCode: "Shift", children: [_jsx(Background, { gap: 20, size: 1, color: "#cbd5e1" }), _jsx(Controls, {}), _jsx(MiniMap, { nodeStrokeColor: "#4f46e5", nodeColor: "#e0e7ff", maskColor: "rgba(0,0,0,0.08)" }), _jsxs(Panel, { position: "top-left", className: styles.addPanel, children: [_jsx("button", { className: styles.addBtn, onClick: () => {
                                 const paneEl = document.querySelector('.react-flow__pane');
                                 if (paneEl) {
                                     const bounds = paneEl.getBoundingClientRect();

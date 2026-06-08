@@ -103,19 +103,41 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({
     [],
   );
 
-  // ── Sync config data → xyflow node data (labels, types, etc.) ─
+  // ── Sync config ↔ xyflow nodes (add/remove/update) ─────
 
   useEffect(() => {
-    setNodes((current) =>
-      current.map((n) => {
+    setNodes((current) => {
+      const configIds = new Set(config.nodes.map((n) => n.id));
+
+      // Remove nodes that no longer exist in config
+      let updated = current.filter((n) => configIds.has(n.id));
+
+      // Add new nodes from config that aren't in xyflow yet
+      const currentIds = new Set(updated.map((n) => n.id));
+      for (const cn of config.nodes) {
+        if (!currentIds.has(cn.id)) {
+          updated.push({
+            id: cn.id,
+            type: cn.type,
+            position: cn.position,
+            data: cn.data as unknown as Record<string, unknown>,
+          });
+        }
+      }
+
+      // Update data for existing nodes
+      updated = updated.map((n) => {
         const configNode = config.nodes.find((cn) => cn.id === n.id);
         if (!configNode) return n;
-        // Only update if data actually changed (avoid infinite loops)
         const newData = configNode.data as unknown as Record<string, unknown>;
-        if (JSON.stringify(n.data) === JSON.stringify(newData)) return n;
-        return { ...n, data: newData };
-      }),
-    );
+        const sameData = JSON.stringify(n.data) === JSON.stringify(newData);
+        const samePos = n.position.x === configNode.position.x && n.position.y === configNode.position.y;
+        if (sameData && samePos) return n;
+        return { ...n, data: newData, position: configNode.position };
+      });
+
+      return updated;
+    });
   }, [config.nodes, setNodes]);
 
   // ── Sync positions back to config after drag ─────────────

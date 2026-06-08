@@ -1,0 +1,6 @@
+.vscode-test/**
+dist/**
+node_modules/**
+webview-ui/node_modules/**
+src/**
+*.tsbuildinfo

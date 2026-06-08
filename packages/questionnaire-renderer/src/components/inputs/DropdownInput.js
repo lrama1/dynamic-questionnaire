@@ -1,0 +1,2 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+export const DropdownInput = ({ value, onChange, options, placeholder, disabled, }) => (_jsxs("select", { className: "dq-input dq-input--dropdown", value: String(value ?? ''), onChange: (e) => onChange(e.target.value), disabled: disabled, children: [_jsx("option", { value: "", children: placeholder || '-- Select --' }), options.filter((opt) => opt.label.trim() !== '').map((opt) => (_jsx("option", { value: opt.value, children: opt.label }, opt.value)))] }));

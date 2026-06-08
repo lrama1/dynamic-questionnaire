@@ -1,0 +1,2 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+export const RadioInput = ({ value, onChange, options, disabled, }) => (_jsx("div", { className: "dq-input dq-input--radio-group", children: options.filter((opt) => opt.label.trim() !== '').map((opt) => (_jsxs("label", { className: "dq-radio-label", children: [_jsx("input", { type: "radio", name: "dq-radio", value: opt.value, checked: value === opt.value, onChange: () => onChange(opt.value), disabled: disabled }), _jsx("span", { children: opt.label })] }, opt.value))) }));

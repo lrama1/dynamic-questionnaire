@@ -1,0 +1,56 @@
+{
+  "name": "dynamic-questionnaire-editor",
+  "displayName": "Dynamic Questionnaire Editor",
+  "description": "Visual editor for dynamic questionnaires using a drag-and-drop flow interface",
+  "version": "0.1.0",
+  "publisher": "lrama1",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lrama1/dynamic-questionnaire"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCustomEditor:dynamic-questionnaire.editor"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "dynamic-questionnaire.editor",
+        "displayName": "Questionnaire Editor",
+        "selector": [
+          {
+            "filenamePattern": "*.dq.json"
+          }
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "command": "dynamic-questionnaire.newQuestionnaire",
+        "title": "New Questionnaire",
+        "category": "Dynamic Questionnaire"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm build",
+    "build:ext": "esbuild src/extension.ts --bundle --external:vscode --platform=node --outfile=dist/extension.js",
+    "build:webview": "cd webview-ui && npx vite build",
+    "build": "pnpm build:ext && pnpm build:webview",
+    "lint": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.21.5",
+    "typescript": "^5.5.0"
+  }
+}

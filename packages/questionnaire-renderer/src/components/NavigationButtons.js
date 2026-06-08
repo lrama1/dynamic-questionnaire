@@ -1,0 +1,2 @@
+import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
+export const NavigationButtons = ({ onNext, onBack, canGoBack, canGoNext, nextLabel = 'Next', backLabel = 'Back', }) => (_jsxs("div", { className: "dq-navigation", children: [canGoBack && (_jsxs("button", { type: "button", className: "dq-btn dq-btn--back", onClick: onBack, children: ["\u2190 ", backLabel] })), _jsx("div", { className: "dq-navigation__spacer" }), _jsxs("button", { type: "button", className: "dq-btn dq-btn--next", onClick: onNext, disabled: !canGoNext, children: [nextLabel, " \u2192"] })] }));
